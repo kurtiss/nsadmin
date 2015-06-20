@@ -12,4 +12,5 @@ before_script:
 script:
   - python nsadmin/manage.py test -v 2
 after_success:
-  - git push origin $BRANCH-stable -f
+  - git checkout -b $BRANCH-stable
+  - git push -u origin $BRANCH-stable
