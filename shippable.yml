@@ -8,9 +8,8 @@ install:
   pip install -r requirements.txt
 before_script:
   - mkdir -p shippable/testresults
-  - git remote set-url origin git@github.com:$REPO_NAME.git
+  - git remote add stable git@github.com:$REPO_NAME-stable.git
 script:
   - python nsadmin/manage.py test -v 2
 after_success:
-  - git checkout -b $BRANCH-stable
-  - git push -u origin $BRANCH-stable
+  - git push -u stable $BRANCH
