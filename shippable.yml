@@ -8,6 +8,7 @@ install:
   pip install -r requirements.txt
 before_script:
   - mkdir -p shippable/testresults
+  - git remote set-url origin git@github.com:$REPO_NAME.git
 script:
   - python nsadmin/manage.py test -v 2
 after_success:
