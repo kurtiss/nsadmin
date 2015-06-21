@@ -12,4 +12,5 @@ before_script:
 script:
   - python nsadmin/manage.py test -v 2
 after_success:
-  - git push -u stable $BRANCH
+  - bumpversion patch --tag --tag-name stable
+  - git push --tags origin master
