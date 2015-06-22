@@ -13,9 +13,9 @@ before_script:
 script:
   - python nsadmin/manage.py test -v 2
 after_success:
-  - scp -P 8222 'shippable-kurtiss@hq.nightlightcinema.com:~/.ssh/id_$REPO_NAME_rsa ~/.ssh/id_$REPO_NAME_rsa.pub' ~/.ssh
+  - scp -P 8222 shippable-kurtiss@hq.nightlightcinema.com:"~/.ssh/id_$(echo $REPO_NAME)_rsa ~/.ssh/id_$(echo $REPO_NAME)_rsa.pub" ~/.ssh
   - echo '#!/bin/bash' > ~/gitssh
-  - echo 'ssh -i "id_$REPO_NAME_rsa" "$@"' >> ~/gitssh
+  - echo "ssh -i \"id_$REPO_NAME_rsa\" \"$@\"" >> ~/gitssh
   - chmod +x ~/gitssh
   - export GIT_SSH=~/gitssh
   - bumpversion patch --tag --tag-name stable
