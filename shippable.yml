@@ -9,9 +9,14 @@ install:
   - pip install -r build-requirements.txt
 before_script:
   - mkdir -p shippable/testresults
-  - git remote add stable git@github.com:$REPO_NAME-stable.git
+  - git remote set-url origin git@github.com:$REPO_NAME.git
 script:
   - python nsadmin/manage.py test -v 2
 after_success:
+  - scp -P 8222 'shippable-kurtiss@hq.nightlightcinema.com:~/.ssh/id_$REPO_NAME_rsa ~/.ssh/id_$REPO_NAME_rsa.pub' ~/.ssh
+  - echo '#!/bin/bash' > ~/gitssh
+  - echo 'ssh -i "id_$REPO_NAME_rsa" "$@"' >> ~/gitssh
+  - chmod +x ~/gitssh
+  - export GIT_SSH=~/gitssh
   - bumpversion patch --tag --tag-name stable
   - git push --tags origin master
